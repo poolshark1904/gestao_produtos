@@ -18,16 +18,15 @@ export default function App() {
   return (
     <>
       <StatusBar style="light" backgroundColor="#2a2a2a" />
-      {/* Set the background color to match your theme */}
       <NavigationContainer>
         <Tab.Navigator
           initialRouteName="Scanner"
           screenOptions={({ route }) => ({
-            tabBarActiveTintColor: "#e5bf65", // Use the golden color for the active tab icon
-            tabBarInactiveTintColor: "#565656", // Use a grey color for inactive tab icons
+            tabBarActiveTintColor: "#e5bf65", 
+            tabBarInactiveTintColor: "#565656",
             tabBarStyle: {
-              backgroundColor: "#323232", // Use the dark grey for the tab bar background
-              borderTopColor: "transparent", // Hide the top border of the tab bar
+              backgroundColor: "#323232", 
+              borderTopColor: "transparent",
             },
             headerShown: false,
             tabBarIcon: ({ color, size }) => {

@@ -138,16 +138,16 @@ const styles = StyleSheet.create({
     width: 200,
     height: 45,
     bottom: 15,
-    backgroundColor: "#e5bf65", // Golden color for the button
+    backgroundColor: "#e5bf65", 
     borderRadius: 15,
     justifyContent: "center",
     alignItems: "center",
     alignSelf: "center",
-    shadowColor: "#000", // Shadow color
-    shadowOffset: { width: 0, height: 2 }, // Shadow position
-    shadowOpacity: 0.25, // Shadow opacity
-    shadowRadius: 3.84, // Shadow blur radius
-    elevation: 5, // Elevation for Android
+    shadowColor: "#000", 
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84, 
+    elevation: 5, 
     zIndex: 2,
   },
 });

@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
     padding: 15,
     marginVertical: 8,
     marginHorizontal: 16,
-    backgroundColor: "#2a2a2a", // Dark background for each product item
+    backgroundColor: "#2a2a2a", 
     borderRadius: 10,
     shadowColor: "#000",
     shadowOffset: {
@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
   button: {
     width: 100,
     height: 45,
-    backgroundColor: "#e5bf65", // Use the golden color for the edit button
+    backgroundColor: "#e5bf65", 
     borderRadius: 15,
     justifyContent: "center",
     alignItems: "center",
@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
   buttonDel: {
     width: 100,
     height: 45,
-    backgroundColor: "#323232", // Dark grey for delete button to stay subtle
+    backgroundColor: "#323232", 
     borderRadius: 15,
     justifyContent: "center",
     alignItems: "center",
@@ -110,14 +110,14 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   buttonText: {
-    color: "#ffffff", // White text for both buttons
+    color: "#ffffff", 
     fontWeight: "bold",
     fontSize: 16,
     marginLeft: 5,
   },
-  // Add additional styles for text fields
+
   text: {
-    color: "#e5bf65", // Text styled with the golden color for a consistent theme
+    color: "#e5bf65",
     marginBottom: 5,
   },
 });
