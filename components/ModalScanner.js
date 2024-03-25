@@ -1,6 +1,6 @@
-// Provides reusable modal component for displaying messages and user interactions for scanning product actions
+// Fornece um componente modal reutilizável para exibir mensagens e interações do utilizador para ações de digitalização de produto
 
-// Import necessary dependencies
+// Importa as dependências necessárias
 import React from 'react';
 import { 
   Modal, 
@@ -11,10 +11,10 @@ import {
   Dimensions 
 } from 'react-native';
 
-// ModalScanner component definition
+// Definição do componente ModalScanner
 const ModalScanner = ({ visible, message, onConfirm, onCancel }) => {
   return (
-    // Modal component for displaying the scanner message and options
+    // Componente Modal para exibir a mensagem do scanner e opções
     <Modal
       animationType="slide"
       transparent={true}
@@ -23,13 +23,13 @@ const ModalScanner = ({ visible, message, onConfirm, onCancel }) => {
     >
       <View style={styles.modalContainer}>
         <View style={styles.modalContent}>
-          {/* Message to be displayed in the modal */}
+          {/* Mensagem a ser exibida no modal */}
           <Text style={styles.modalText}>{message}</Text>
-          {/* Button to confirm the action */}
+          {/* Botão para confirmar a ação */}
           <TouchableOpacity style={styles.button} onPress={onConfirm}>
             <Text style={styles.buttonText}>Yes</Text>
           </TouchableOpacity>
-          {/* Button to cancel the action */}
+          {/* Botão para cancelar a ação */}
           <TouchableOpacity style={styles.button} onPress={onCancel}>
             <Text style={styles.buttonText}>No</Text>
           </TouchableOpacity>
@@ -39,40 +39,40 @@ const ModalScanner = ({ visible, message, onConfirm, onCancel }) => {
   );
 };
 
-// Stylesheet for ModalScanner component
+// Folha de estilos para o componente ModalScanner
 const styles = StyleSheet.create({
   modalContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)", // Semi-transparent background
+    backgroundColor: "rgba(0, 0, 0, 0.5)", // Fundo semi-transparente
   },
   modalContent: {
-    backgroundColor: "#2a2a2a", // Dark background for the modal content
+    backgroundColor: "#2a2a2a", // Fundo escuro para o conteúdo do modal
     padding: 20,
     borderRadius: 10,
-    width: Dimensions.get("window").width - 40, // Width of the modal
+    width: Dimensions.get("window").width - 40, // Largura do modal
     alignSelf: "center",
   },
   modalText: {
-    color: "#FFFFFF", // White color for the text
-    marginBottom: 15, // Bottom margin for separation
-    textAlign: "center", // Center-align text
+    color: "#FFFFFF", // Cor branca para o texto
+    marginBottom: 15, // Margem inferior para separação
+    textAlign: "center", // Alinha o texto ao centro
   },
   button: {
-    width: '100%', // Button width to occupy full width
-    height: 45, // Button height
-    backgroundColor: "#e5bf65", // Golden color for the button
-    borderRadius: 15, // Button border radius
-    justifyContent: 'center', // Center-align button content vertically
-    alignItems: 'center', // Center-align button content horizontally
-    marginTop: 10, // Top margin for separation
+    width: '100%', // Largura do botão para ocupar toda a largura
+    height: 45, // Altura do botão
+    backgroundColor: "#e5bf65", // Cor dourada para o botão
+    borderRadius: 15, // Raio da borda do botão
+    justifyContent: 'center', // Alinha o conteúdo do botão verticalmente ao centro
+    alignItems: 'center', // Alinha o conteúdo do botão horizontalmente ao centro
+    marginTop: 10, // Margem superior para separação
   },
   buttonText: {
-    color: 'black', // Black color for the text
-    fontWeight: 'bold', // Bold font weight
-    fontSize: 16, // Font size
+    color: 'black', // Cor preta para o texto
+    fontWeight: 'bold', // Fonte a negrito
+    fontSize: 16, // Tamanho da fonte
   },
 });
 
-export default ModalScanner; // Export the ModalScanner component
+export default ModalScanner; // Exporta o componente ModalScanner

@@ -1,13 +1,13 @@
 /*
 
-Product Component:
+Componente Produto:
 
-Represents the UI for displaying product details.
-Includes options for editing and deleting products.
+Representa a UI para exibir os detalhes do produto.
+Inclui opções para editar e excluir produtos.
 
 */
 
-// Import necessary dependencies
+// Importa as dependências necessárias
 import React, { useState } from "react";
 import { 
   View, 
@@ -20,25 +20,25 @@ import { MaterialIcons } from "@expo/vector-icons";
 import ModalEdit from "../components/ModalEdit";
 import ModalDelete from "../components/ModalDelete";
 
-// Product component definition
+// Definição do componente Produto
 export default function Product({ product, onEdit, onDelete }) {
 
-  // State variables to manage the visibility of edit and delete modals
+  // Variáveis de estado para gerir a visibilidade dos modais de edição e de apagar produtos
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
   const [editModalVisible, setEditModalVisible] = useState(false);
 
   return (
     <View style={styles.container}>
-      {/* Display product details */}
+      {/* Exibir detalhes do produto */}
       <Image source={{ uri: product.qrCode }} style={styles.qrCode} />
       <Text style={styles.text}>Product Id: {product.id}</Text>
       <Text style={styles.text}>Title: {product.title}</Text>
       <Text style={styles.text}>Description: {product.description}</Text>
       <Text style={styles.text}>Price: {product.price}€</Text>
       <Text style={styles.text}>Quantity: {product.quantity}</Text>
-      {/* Buttons for edit and delete actions */}
+      {/* Botões para ações de edição e exclusão */}
       <View style={styles.buttonContainer}>
-        {/* Edit button */}
+        {/* Botão de edição */}
         <TouchableOpacity
           onPress={() => setEditModalVisible(true)}
           style={styles.button}
@@ -46,7 +46,7 @@ export default function Product({ product, onEdit, onDelete }) {
           <Text style={styles.buttonText}>Edit</Text>
           <MaterialIcons name="edit-document" size={24} color="white" />
         </TouchableOpacity>
-        {/* Delete button */}
+        {/* Botão de exclusão */}
         <TouchableOpacity
           onPress={() => setDeleteModalVisible(true)}
           style={styles.buttonDel}
@@ -55,7 +55,7 @@ export default function Product({ product, onEdit, onDelete }) {
           <MaterialIcons name="delete-forever" size={24} color="white" />
         </TouchableOpacity>
       </View>
-      {/* Modals for edit and delete actions */}
+      {/* Modais para ações de edição e exclusão */}
       <ModalEdit
         product={product}
         editModalVisible={editModalVisible}
@@ -72,13 +72,13 @@ export default function Product({ product, onEdit, onDelete }) {
   );
 }
 
-// Styles for the Product component
+// Estilos para o componente Produto
 const styles = StyleSheet.create({
   container: {
     padding: 15,
     marginVertical: 8,
     marginHorizontal: 16,
-    backgroundColor: "#2a2a2a", // Dark background for each product item
+    backgroundColor: "#2a2a2a", // Fundo escuro para cada item de produto
     borderRadius: 10,
     shadowColor: "#000",
     shadowOffset: {
@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
   button: {
     width: 100,
     height: 45,
-    backgroundColor: "#e5bf65", // Use the golden color for the edit button
+    backgroundColor: "#e5bf65", // Usa a cor dourada para o botão de edição
     borderRadius: 15,
     justifyContent: "center",
     alignItems: "center",
@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
   buttonDel: {
     width: 100,
     height: 45,
-    backgroundColor: "#323232", // Dark grey for delete button to stay subtle
+    backgroundColor: "#323232", // Cinza escuro para o botão de exclusão para manter a sutileza
     borderRadius: 15,
     justifyContent: "center",
     alignItems: "center",
@@ -135,14 +135,14 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   buttonText: {
-    color: "#ffffff", // White text for both buttons
+    color: "#ffffff", // Texto branco para ambos os botões
     fontWeight: "bold",
     fontSize: 16,
     marginLeft: 5,
   },
-  // Add additional styles for text fields
+  // Adiciona estilos adicionais para campos de texto
   text: {
-    color: "#e5bf65", // Text styled with the golden color for a consistent theme
+    color: "#e5bf65", // Texto estilizado com a cor dourada para um tema consistente
     marginBottom: 5,
   },
 });

@@ -23,6 +23,9 @@ import {
   Text,
   SafeAreaView,
 } from "react-native";
+import {
+  useFocusEffect,
+} from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import ModalMessage from "../components/ModalMessage";
 
@@ -40,6 +43,13 @@ export default function ProdCreate() {
   useEffect(() => {
     loadProducts();
   }, []);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      loadProducts();
+      console.log("Stored Products:", products);
+    }, [])
+  );
 
   // Função para carregar produtos do AsyncStorage
   const loadProducts = async () => {
@@ -182,7 +192,7 @@ export default function ProdCreate() {
 }
 
 // Estilização da página
-const styles = StyleSheet.message({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 50,

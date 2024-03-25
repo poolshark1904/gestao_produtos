@@ -35,10 +35,9 @@ import {
 import { CameraView, useCameraPermissions } from "expo-camera/next";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import Product from "../components/Product";
 import ModalScanner from "../components/ModalScanner";
 
-export default function App() {
+export default function Scanner() {
   // Variáveis de estado para permissões da câmara, estado de digitalização, produtos, etc.
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);

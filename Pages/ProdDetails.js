@@ -26,12 +26,12 @@ import {
   TouchableOpacity,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import Product from "../components/Product";
 import {
   useFocusEffect,
   useNavigation,
   useRoute,
 } from "@react-navigation/native";
+import Product from "../components/Product";
 import ModalMessage from "../components/ModalMessage";
 
 
@@ -42,6 +42,7 @@ export default function ProdDetails() {
   const [selectedProductId, setSelectedProductId] = useState(null);
   // Variável de estado para gerir a visibilidade do modal
   const [messageModalVisible, setMessageModalVisible] = useState(false);
+  const [message, setMessage] = useState("");
 
   const route = useRoute();
   const navigation = useNavigation();
@@ -68,7 +69,6 @@ export default function ProdDetails() {
   useFocusEffect(
     React.useCallback(() => {
       loadProducts();
-      console.log("Stored Products:", products);
     }, [])
   );
 
