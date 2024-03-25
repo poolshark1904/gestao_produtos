@@ -1,3 +1,20 @@
+/*
+
+Configuração do Componente:
+
+Representa o ecrã para criar novos produtos.
+Utiliza useState para gerir campos de formulário e estado de criação de produto.
+
+Criação de Produtos:
+
+Implementa inputs de formulário para fornecer detalhes do produto.
+Gera um código QR para o novo produto usando uma API.
+Guarda o produto criado no AsyncStorage após a submissão.
+
+*/
+
+// Importa as dependências necessárias
+// Gere o estado de inputs do formulário e a navegação
 import React, { useState, useEffect } from "react";
 import {
   TextInput,
@@ -7,21 +24,24 @@ import {
   SafeAreaView,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import ModalCreate from "../components/ModalCreate";
+import ModalMessage from "../components/ModalMessage";
 
 export default function ProdCreate() {
+  // Variáveis de estado para gerir inputs do formulário e a visibilidade do modal
   const [products, setProducts] = useState([]);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
   const [quantity, setQuantity] = useState("");
-  const [createModalVisible, setCreateModalVisible] = useState(false);
+  const [messageModalVisible, setMessageModalVisible] = useState(false);
   const [message, setMessage] = useState("");
 
+  // Hook de efeito para carregar produtos na montagem do componente
   useEffect(() => {
     loadProducts();
   }, []);
 
+  // Função para carregar produtos do AsyncStorage
   const loadProducts = async () => {
     const productsData = await AsyncStorage.getItem("products");
     if (productsData) {
@@ -29,9 +49,13 @@ export default function ProdCreate() {
     }
   };
 
+  // Função para guardar um novo produto
   const saveProduct = async () => {
     try {
+      // Gera ID único para o novo produto
       const id = `${products.length + 1}-${new Date().getTime()}`;
+
+      // Gera código QR para o novo produto
       const qrCodeText = `Product ID: ${id}`;
       const qrCode = await generateQRCode(qrCodeText);
 
@@ -39,6 +63,7 @@ export default function ProdCreate() {
         throw new Error("Failed to generate QR code.");
       }
 
+      // Cria novo objeto de produto
       const newProduct = {
         id,
         qrCodeText,
@@ -49,27 +74,29 @@ export default function ProdCreate() {
         quantity: parseInt(quantity, 10),
       };
 
+      // Atualiza lista de produtos e guarda no AsyncStorage
       const updatedProducts = [...products, newProduct];
       setProducts(updatedProducts);
       await AsyncStorage.setItem("products", JSON.stringify(updatedProducts));
 
-      // Success message
+      // Exibe mensagem de sucesso e mostra o modal
       setMessage("Product created successfully!");
-      setCreateModalVisible(true);
+      setMessageModalVisible(true);
 
-      // Reset form fields
+      // Faz reset aos campos do formulário
       setTitle("");
       setDescription("");
       setPrice("");
       setQuantity("");
     } catch (error) {
       console.error("Error creating product:", error);
-      // Error message
+      // Exibe mensagem de erro e mostra o modal
       setMessage(`Error creating product: ${error.message}`);
-      setCreateModalVisible(true);
+      setMessageModalVisible(true);
     }
   };
 
+  // Função para gerar código QR usando uma API
   const generateQRCode = async (data) => {
     try {
       const response = await fetch(
@@ -89,11 +116,13 @@ export default function ProdCreate() {
 
   return (
     <SafeAreaView style={styles.container}>
+      {/* Header */}
       <Text style={styles.header}>Create New Product</Text>
+
+      {/* Inputs do formulário */}
       <Text style={{ color: "#FFFFFF", fontWeight: "bold", marginBottom: 10 }}>
         Title:
       </Text>
-
       <TextInput
         placeholder="Name of the product"
         value={title}
@@ -136,19 +165,24 @@ export default function ProdCreate() {
         style={styles.input}
         placeholderTextColor="#757575"
       />
+
+      {/* Botão para guardar */}
       <TouchableOpacity style={styles.button} onPress={saveProduct}>
         <Text style={styles.buttonText}>Save</Text>
       </TouchableOpacity>
-      <ModalCreate
-        visible={createModalVisible}
+
+      {/* Modal para mostrar mensagens de successo/erro*/}
+      <ModalMessage
+        visible={messageModalVisible}
         message={message}
-        onCancel={() => setCreateModalVisible(false)}
+        onCancel={() => setMessageModalVisible(false)}
       />
     </SafeAreaView>
   );
 }
 
-const styles = StyleSheet.create({
+// Estilização da página
+const styles = StyleSheet.message({
   container: {
     flex: 1,
     paddingTop: 50,
@@ -169,31 +203,31 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 40,
-    backgroundColor: "#323232", 
-    color: "#FFFFFF", 
+    backgroundColor: "#323232", // Cor de para o fundo do input
+    color: "#FFFFFF", // Cor do texto branca para o input
     marginBottom: 10,
     paddingHorizontal: 10,
     borderRadius: 5,
     borderWidth: 1,
-    borderColor: "#565656",
+    borderColor: "#565656", // Cor da borda para os inputs
   },
   button: {
     width: 200,
     height: 45,
     marginTop: 15,
-    backgroundColor: "#e5bf65",
+    backgroundColor: "#e5bf65", // Cor dourada para o botão
     borderRadius: 15,
     justifyContent: "center",
     alignItems: "center",
     alignSelf: "center",
-    shadowColor: "#000", 
-    shadowOffset: { width: 0, height: 2 }, 
-    shadowOpacity: 0.25, 
-    shadowRadius: 3.84, 
-    elevation: 5, 
+    shadowColor: "#000", // Cor da sombra
+    shadowOffset: { width: 0, height: 2 }, // Posição da sombra
+    shadowOpacity: 0.25, // Opacidade da sombra
+    shadowRadius: 3.84, // Raio de desfocagem da sombra
+    elevation: 5, // Elevação para Android
   },
   buttonText: {
-    color: "#2a2a2a", 
+    color: "#2a2a2a", // Cor escura para o texto para proporcionar contraste no botão dourado
     fontWeight: "bold",
     fontSize: 16,
   },

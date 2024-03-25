@@ -1,3 +1,29 @@
+/*
+
+Configuração do Componente:
+
+Representa o ecrã do scanner onde os códigos QR são digitalizados.
+Utiliza useState para gerir várias variáveis de estado como permissão, estado de digitalização, produtos encontrados, etc.
+Utiliza o hook useCameraPermissions do Expo Camera para gerir permissões da câmara.
+Pesquisa produtos armazenados do AsyncStorage na montagem do componente.
+
+Digitalização de Códigos QR:
+
+Utiliza o componente CameraView do Expo para digitalização de códigos QR.
+Lida com os dados do código QR digitalizado para verificar se o produto existe ou não.
+Mostra um modal para confirmar a criação ou edição do produto com base no resultado da digitalização.
+
+Renderização da Interface do Utilizador:
+
+Renderiza a vista da câmara, detalhes do produto e botão de digitalização com base em diferentes estados.
+Utiliza um componente modal personalizado para confirmação do utilizador.
+
+*/
+
+// Importa as dependências necessárias
+// Lida com permissão da câmara e digitalização de códigos de barras
+// Gere os dados do produto utilizando AsyncStorage
+// Renderiza detalhes do produto e modal para digitalização
 import React, { useState, useEffect } from "react";
 import {
   Text,
@@ -13,6 +39,7 @@ import Product from "../components/Product";
 import ModalScanner from "../components/ModalScanner";
 
 export default function App() {
+  // Variáveis de estado para permissões da câmara, estado de digitalização, produtos, etc.
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
   const [permission, requestPermission] = useCameraPermissions();
@@ -23,6 +50,7 @@ export default function App() {
   const [confirmAction, setConfirmAction] = useState([]);
   const navigation = useNavigation();
 
+  // Effect hook para solicitar permissão da câmara na montagem do componente
   useEffect(() => {
     (async () => {
       if (!permission?.granted) {
@@ -32,6 +60,7 @@ export default function App() {
     })();
   }, [permission]);
 
+  // Função para carregar produtos do AsyncStorage
   const loadProducts = async () => {
     const productsData = await AsyncStorage.getItem("products");
     if (productsData) {
@@ -39,15 +68,19 @@ export default function App() {
     }
   };
 
+  // Effect Hook para carregar produtos na montagem do componente
   useEffect(() => {
     loadProducts();
   }, []);
 
+  // Effect hook para recarregar os produtos quando o foco muda para este ecrã (permitindo fazer refresh se tiver havido alterações entretanto)
   useFocusEffect(
     React.useCallback(() => {
       loadProducts();
     }, [])
   );
+
+  // Função para lidar com dados de código de barras digitalizados
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
     const scannedId = data.split("Product ID: ")[1];
@@ -60,24 +93,23 @@ export default function App() {
         `Product found: ${productFound.title}. Do you want to edit it?`
       );
       setConfirmAction(() => () => {
-        setFoundProduct(productFound);
         setModalVisible(false);
+        // Pass the product's ID instead of the entire product object
+        navigation.navigate("ProdDetails", { id: productFound.id });
       });
-      setModalVisible(true);
     } else {
-      setFoundProduct(null);
       setModalMessage(
         "Product not found. Do you want to create a new product?"
       );
       setConfirmAction(() => () => {
-        setFoundProduct(null);
-        navigation.navigate("ProdCreate");
         setModalVisible(false);
+        navigation.navigate("ProdCreate");
       });
-      setModalVisible(true);
     }
+    setModalVisible(true);
   };
 
+  // Função para fazer reset ao estado da digitalização
   const resetScanning = () => {
     setScanned(false);
     setFoundProduct(null);
@@ -93,28 +125,38 @@ export default function App() {
 
   return (
     <SafeAreaView style={styles.container}>
-      {!foundProduct && (
+      {/* Renderiza a vista da câmara apenas se estiver no processo de leitura de QR Codes */}
+      {!scanned && (
         <CameraView
           style={styles.cameraView}
-          onBarcodeScanned={!scanned ? handleBarCodeScanned : undefined}
+          onBarcodeScanned={handleBarCodeScanned}
           barcodeScannerSettings={{ barcodeTypes: ["qr"] }}
         />
       )}
-      {foundProduct && <Product product={foundProduct} />}
+
+      {/* Renderiza o botão de digitalização novamente se digitalizado */}
       {scanned && (
         <TouchableOpacity style={styles.button} onPress={resetScanning}>
           <Text style={styles.buttonText}>Scan another</Text>
         </TouchableOpacity>
       )}
+
+      {/* Modal para mostrar mensagens e confirmar ações */}
       <ModalScanner
         visible={modalVisible}
         message={modalMessage}
-        onConfirm={confirmAction}
-        onCancel={() => setModalVisible(false)}
+        onConfirm={() => {
+          confirmAction();
+        }}
+        onCancel={() => {
+          setModalVisible(false);
+        }}
       />
     </SafeAreaView>
   );
 }
+
+// Estilização da página
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -136,16 +178,16 @@ const styles = StyleSheet.create({
     width: 200,
     height: 45,
     bottom: 15,
-    backgroundColor: "#e5bf65", 
+    backgroundColor: "#e5bf65", // Cor dourada para o botão
     borderRadius: 15,
     justifyContent: "center",
     alignItems: "center",
     alignSelf: "center",
-    shadowColor: "#000", 
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84, 
-    elevation: 5, 
-    zIndex: 2,
+    shadowColor: "#000", // Cor da sombra
+    shadowOffset: { width: 0, height: 2 }, // Posição da sombra
+    shadowOpacity: 0.25, // Opacidade da sombra
+    shadowRadius: 3.84, // Raio de desfocagem da sombra
+    elevation: 5, // Elevação para Android
+    zIndex: 2, // Garante que o botão está acima de outros elementos
   },
 });

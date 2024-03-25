@@ -1,22 +1,44 @@
+/*
+
+Product Component:
+
+Represents the UI for displaying product details.
+Includes options for editing and deleting products.
+
+*/
+
+// Import necessary dependencies
 import React, { useState } from "react";
-import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
+import { 
+  View, 
+  Text, 
+  Image, 
+  StyleSheet, 
+  TouchableOpacity 
+} from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import ModalEdit from "../components/ModalEdit";
 import ModalDelete from "../components/ModalDelete";
 
+// Product component definition
 export default function Product({ product, onEdit, onDelete }) {
+
+  // State variables to manage the visibility of edit and delete modals
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
   const [editModalVisible, setEditModalVisible] = useState(false);
 
   return (
     <View style={styles.container}>
+      {/* Display product details */}
       <Image source={{ uri: product.qrCode }} style={styles.qrCode} />
       <Text style={styles.text}>Product Id: {product.id}</Text>
       <Text style={styles.text}>Title: {product.title}</Text>
       <Text style={styles.text}>Description: {product.description}</Text>
       <Text style={styles.text}>Price: {product.price}€</Text>
       <Text style={styles.text}>Quantity: {product.quantity}</Text>
+      {/* Buttons for edit and delete actions */}
       <View style={styles.buttonContainer}>
+        {/* Edit button */}
         <TouchableOpacity
           onPress={() => setEditModalVisible(true)}
           style={styles.button}
@@ -24,6 +46,7 @@ export default function Product({ product, onEdit, onDelete }) {
           <Text style={styles.buttonText}>Edit</Text>
           <MaterialIcons name="edit-document" size={24} color="white" />
         </TouchableOpacity>
+        {/* Delete button */}
         <TouchableOpacity
           onPress={() => setDeleteModalVisible(true)}
           style={styles.buttonDel}
@@ -32,6 +55,7 @@ export default function Product({ product, onEdit, onDelete }) {
           <MaterialIcons name="delete-forever" size={24} color="white" />
         </TouchableOpacity>
       </View>
+      {/* Modals for edit and delete actions */}
       <ModalEdit
         product={product}
         editModalVisible={editModalVisible}
@@ -48,12 +72,13 @@ export default function Product({ product, onEdit, onDelete }) {
   );
 }
 
+// Styles for the Product component
 const styles = StyleSheet.create({
   container: {
     padding: 15,
     marginVertical: 8,
     marginHorizontal: 16,
-    backgroundColor: "#2a2a2a", 
+    backgroundColor: "#2a2a2a", // Dark background for each product item
     borderRadius: 10,
     shadowColor: "#000",
     shadowOffset: {
@@ -78,7 +103,7 @@ const styles = StyleSheet.create({
   button: {
     width: 100,
     height: 45,
-    backgroundColor: "#e5bf65", 
+    backgroundColor: "#e5bf65", // Use the golden color for the edit button
     borderRadius: 15,
     justifyContent: "center",
     alignItems: "center",
@@ -95,7 +120,7 @@ const styles = StyleSheet.create({
   buttonDel: {
     width: 100,
     height: 45,
-    backgroundColor: "#323232", 
+    backgroundColor: "#323232", // Dark grey for delete button to stay subtle
     borderRadius: 15,
     justifyContent: "center",
     alignItems: "center",
@@ -110,14 +135,14 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   buttonText: {
-    color: "#ffffff", 
+    color: "#ffffff", // White text for both buttons
     fontWeight: "bold",
     fontSize: 16,
     marginLeft: 5,
   },
-
+  // Add additional styles for text fields
   text: {
-    color: "#e5bf65",
+    color: "#e5bf65", // Text styled with the golden color for a consistent theme
     marginBottom: 5,
   },
 });
