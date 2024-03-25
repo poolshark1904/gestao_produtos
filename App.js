@@ -1,4 +1,8 @@
-/* Configuração de Navegação:
+/* 
+UFCD 11027
+Autores: André Silva, André Monteiro, Luís Almeida
+
+Configuração de Navegação:
 Define um navegador de aba inferior para três ecrãs: "ProdDetails", "Scanner" e "ProdCreate".
 Cada ecrã está associado a um ícone e rótulo específicos para navegação.
 Importa ícones necessários dos ícones vetoriais do Expo.
